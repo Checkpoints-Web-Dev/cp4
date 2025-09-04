@@ -1,6 +1,7 @@
 import Carros from "./components/Carros";
 import Header from "./components/Header";
 import Lojas from "./components/Lojas";
+import Sobre from "./components/Sobre";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Header />
       <Carros />
       <Lojas />
+      <Sobre />
     </>
   );
 }
