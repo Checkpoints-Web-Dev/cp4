@@ -21,7 +21,7 @@ const Sobre = () => {
   };
 
   return (
-    <section className="bg-gray-50 py-16 px-4">
+    <section id="sobre" className="bg-gray-50 py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-blue-600 mb-4">

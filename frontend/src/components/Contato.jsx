@@ -49,7 +49,7 @@ const Contato = () => {
   };
 
   return (
-    <section className="bg-white py-16 px-4">
+    <section id="contato" className="bg-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-blue-600 mb-4">

@@ -8,7 +8,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#"
+                  href="#carros"
                   className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
                 >
                   Carros
@@ -16,7 +16,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#sobre"
                   className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
                 >
                   Sobre Nós
@@ -24,7 +24,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#contato"
                   className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
                 >
                   Contato
@@ -32,7 +32,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#lojas"
                   className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
                 >
                   Nossas Lojas

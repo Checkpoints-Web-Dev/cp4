@@ -32,16 +32,16 @@ const Header = () => {
               Carros
             </a>
             <a
-              href="#sobre"
-              className="text-white hover:text-blue-200 transition-colors duration-200 font-medium"
-            >
-              Sobre
-            </a>
-            <a
               href="#lojas"
               className="text-white hover:text-blue-200 transition-colors duration-200 font-medium"
             >
               Lojas
+            </a>
+            <a
+              href="#sobre"
+              className="text-white hover:text-blue-200 transition-colors duration-200 font-medium"
+            >
+              Sobre
             </a>
             <a
               href="#contato"
