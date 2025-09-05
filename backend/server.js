@@ -23,8 +23,18 @@ app.get("/sobre", (req, res) => {
   res.status(200).json(valores);
 });
 
-app.get("/contato", (req, res) => {
-  res.send("Página de contato");
+app.post("/contato", (req, res) => {
+  const { name, email, phone, message } = req.body;
+  if (!name || !email || !message) {
+    return res
+      .status(400)
+      .json({ error: "Nome, email e mensagem são obrigatórios." });
+  }
+
+  res.status(201).json({
+    message: "Mensagem recebida com sucesso!",
+    dados: { name, email, phone, message },
+  });
 });
 
 app.listen(port, () => {

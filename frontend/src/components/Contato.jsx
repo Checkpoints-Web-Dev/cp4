@@ -1,4 +1,53 @@
+import { useState } from "react";
+
 const Contato = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const [resposta, setResposta] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:5001/contato", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setResposta({ tipo: "sucesso", texto: data.message });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      } else {
+        setResposta({ tipo: "erro", texto: data.message });
+      }
+    } catch (error) {
+      console.error("Erro ao enviar mensagem:", error);
+      setResposta({ tipo: "erro", texto: "Erro ao enviar mensagem." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="bg-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
@@ -19,7 +68,7 @@ const Contato = () => {
               <h3 className="text-xl font-semibold text-gray-900 mb-6">
                 Envie uma Mensagem
               </h3>
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
                   <label
                     htmlFor="name"
@@ -34,6 +83,8 @@ const Contato = () => {
                     required
                     className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                     placeholder="Seu nome completo"
+                    value={formData.name}
+                    onChange={handleChange}
                   />
                 </div>
 
@@ -51,6 +102,8 @@ const Contato = () => {
                     required
                     className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                     placeholder="seu@email.com"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
                 </div>
 
@@ -67,6 +120,8 @@ const Contato = () => {
                     name="phone"
                     className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                     placeholder="(11) 99999-9999"
+                    value={formData.phone}
+                    onChange={handleChange}
                   />
                 </div>
 
@@ -84,6 +139,8 @@ const Contato = () => {
                     rows={4}
                     className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 resize-none"
                     placeholder="Como podemos ajudá-lo?"
+                    value={formData.message}
+                    onChange={handleChange}
                   />
                 </div>
 
@@ -94,6 +151,21 @@ const Contato = () => {
                   Enviar Mensagem
                 </button>
               </form>
+              {loading && (
+                <p className="mt-4 text-center text-gray-600">Enviando...</p>
+              )}
+
+              {resposta && (
+                <p
+                  className={`mt-4 text-center ${
+                    resposta.tipo === "sucesso"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
+                >
+                  {resposta.texto}
+                </p>
+              )}
             </div>
           </div>
 
