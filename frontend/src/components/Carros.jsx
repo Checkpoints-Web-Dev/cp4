@@ -52,9 +52,7 @@ const Carros = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6">
-          {loading === true ? (
-            <p className="text-xl text-blue-600">Buscando carros...</p>
-          ) : !erro ? (
+          {!erro && !loading ? (
             carros.map((carro) => (
               <div
                 key={carro.id}
@@ -125,7 +123,7 @@ const Carros = () => {
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 rounded-lg font-medium text-lg transition-colors"
             onClick={fetchCarros}
           >
-            Buscar Carros
+            {loading ? "Buscando Carros..." : "Buscar Carros"}
           </button>
         </div>
       </div>

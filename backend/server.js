@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const carros = require("./dados/carros");
 const lojas = require("./dados/lojas");
+const valores = require("./dados/valores");
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.get("/lojas", (req, res) => {
 });
 
 app.get("/sobre", (req, res) => {
-  res.send("Esta é a página sobre nós.");
+  res.status(200).json(valores);
 });
 
 app.get("/contato", (req, res) => {

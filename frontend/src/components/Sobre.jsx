@@ -1,30 +1,24 @@
+import { useState } from "react";
+
 const Sobre = () => {
-  const valores = [
-    {
-      icon: "🎯",
-      titulo: "Excelência",
-      descricao:
-        "Comprometidos em oferecer os melhores veículos e serviços do mercado.",
-    },
-    {
-      icon: "🤝",
-      titulo: "Confiança",
-      descricao:
-        "Construímos relacionamentos duradouros baseados na transparência e honestidade.",
-    },
-    {
-      icon: "⚡",
-      titulo: "Inovação",
-      descricao:
-        "Sempre em busca das mais modernas tecnologias e soluções automotivas.",
-    },
-    {
-      icon: "💎",
-      titulo: "Qualidade",
-      descricao:
-        "Cada veículo passa por rigorosa inspeção para garantir a máxima qualidade.",
-    },
-  ];
+  const [valores, setValores] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState(null);
+
+  const fetchValores = async () => {
+    try {
+      setErro(null);
+      setLoading(true);
+      const response = await fetch("http://localhost:5001/sobre");
+      const data = await response.json();
+      setValores(data);
+    } catch (error) {
+      console.error("Erro ao buscar valores: ", error);
+      setErro("Erro ao buscar valores. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="bg-gray-50 py-16 px-4">
@@ -73,26 +67,43 @@ const Sobre = () => {
           </div>
         </div>
 
-        <div className="mb-16">
-          <h3 className="text-3xl font-bold text-blue-600 text-center mb-12">
-            Nossos Valores
-          </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {valores.map((valor, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg p-6 text-center border border-gray-200 hover:shadow-lg transition-shadow"
-              >
-                <div className="text-4xl mb-4">{valor.icon}</div>
-                <h4 className="text-xl font-semibold text-blue-600 mb-3">
-                  {valor.titulo}
-                </h4>
-                <p className="text-gray-600 leading-relaxed">
-                  {valor.descricao}
-                </p>
+        {valores.length > 0 || erro ? (
+          <div className="mb-16">
+            {!erro && !loading ? (
+              <div>
+                <h3 className="text-3xl font-bold text-blue-600 text-center mb-12">
+                  Nossos Valores
+                </h3>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {valores.map((valor, index) => (
+                    <div
+                      key={index}
+                      className="bg-white rounded-lg p-6 text-center border border-gray-200 hover:shadow-lg transition-shadow"
+                    >
+                      <div className="text-4xl mb-4">{valor.icon}</div>
+                      <h4 className="text-xl font-semibold text-blue-600 mb-3">
+                        {valor.titulo}
+                      </h4>
+                      <p className="text-gray-600 leading-relaxed">
+                        {valor.descricao}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+            ) : (
+              <p className="text-xl text-red-600">{erro}</p>
+            )}
           </div>
+        ) : null}
+
+        <div className="text-center mt-8 md:mt-12">
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 rounded-lg font-medium text-lg transition-colors"
+            onClick={fetchValores}
+          >
+            {loading ? "Buscando Valores..." : "Buscar Valores"}
+          </button>
         </div>
       </div>
     </section>
