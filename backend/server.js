@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const listaCarros = require("./dados/carros");
 
 const app = express();
 
@@ -9,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/carros", (req, res) => {
-  res.send("Lista de carros disponíveis");
+  res.status(200).json(listaCarros);
 });
 
 app.get("/lojas", (req, res) => {
@@ -25,5 +26,5 @@ app.get("/contato", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Servidor rodando em http://localhost:${port}`);
 });

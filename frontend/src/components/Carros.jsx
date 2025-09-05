@@ -1,67 +1,25 @@
-const carrosData = [
-  {
-    id: 1,
-    nome: "Honda Civic",
-    preco: "R$ 89.900",
-    ano: "2023",
-    quilometragem: "15.000 km",
-    combustivel: "Flex",
-    transmissao: "Automático",
-    imagem: "/civic.png",
-  },
-  {
-    id: 2,
-    nome: "Toyota Corolla",
-    preco: "R$ 95.500",
-    ano: "2024",
-    quilometragem: "8.500 km",
-    combustivel: "Híbrido",
-    transmissao: "CVT",
-    imagem: "/corolla.png",
-  },
-  {
-    id: 3,
-    nome: "Volkswagen Jetta",
-    preco: "R$ 78.900",
-    ano: "2022",
-    quilometragem: "22.000 km",
-    combustivel: "Flex",
-    transmissao: "Automático",
-    imagem: "/jetta.png",
-  },
-  {
-    id: 4,
-    nome: "Hyundai HB20",
-    preco: "R$ 65.900",
-    ano: "2023",
-    quilometragem: "12.000 km",
-    combustivel: "Flex",
-    transmissao: "Manual",
-    imagem: "/hb20.png",
-  },
-  {
-    id: 5,
-    nome: "Chevrolet Onix",
-    preco: "R$ 72.500",
-    ano: "2024",
-    quilometragem: "5.000 km",
-    combustivel: "Flex",
-    transmissao: "Automático",
-    imagem: "/onix.png",
-  },
-  {
-    id: 6,
-    nome: "Ford EcoSport",
-    preco: "R$ 85.900",
-    ano: "2023",
-    quilometragem: "18.000 km",
-    combustivel: "Flex",
-    transmissao: "Automático",
-    imagem: "/ecosport.png",
-  },
-];
+import { useState } from "react";
 
 const Carros = () => {
+  const [carros, setCarros] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState(null);
+
+  const fetchCarros = async () => {
+    try {
+      setErro(null);
+      setLoading(true);
+      const response = await fetch("http://localhost:5001/carros");
+      const data = await response.json();
+      setCarros(data);
+    } catch (error) {
+      console.error("Erro ao buscar carros: ", error);
+      setErro("Erro ao buscar carros. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="py-16 px-4 bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -94,71 +52,80 @@ const Carros = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 md:gap-6">
-          {carrosData.map((carro) => (
-            <div
-              key={carro.id}
-              className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-200 overflow-hidden"
-            >
-              <div className="p-0">
-                <div className="relative overflow-hidden">
-                  <img
-                    src={
-                      carro.imagem ||
-                      "/placeholder.svg?height=200&width=400&query=carro moderno"
-                    }
-                    alt={carro.nome}
-                    className="w-full h-44 md:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <span className="absolute top-3 right-3 bg-blue-600 text-white px-2 py-1 rounded-md text-sm font-medium shadow-md">
-                    {carro.ano}
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-4 md:p-6">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2">
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {carro.nome}
-                  </h3>
-                  <span className="text-xl md:text-2xl font-bold text-blue-600">
-                    {carro.preco}
-                  </span>
-                </div>
-
-                <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex justify-between items-center">
-                    <span>Quilometragem:</span>
-                    <span className="font-medium text-gray-900">
-                      {carro.quilometragem}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>Combustível:</span>
-                    <span className="font-medium text-gray-900">
-                      {carro.combustivel}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>Transmissão:</span>
-                    <span className="font-medium text-gray-900">
-                      {carro.transmissao}
+          {loading === true ? (
+            <p className="text-xl text-blue-600">Buscando carros...</p>
+          ) : !erro ? (
+            carros.map((carro) => (
+              <div
+                key={carro.id}
+                className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-200 overflow-hidden"
+              >
+                <div className="p-0">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={
+                        carro.imagem ||
+                        "/placeholder.svg?height=200&width=400&query=carro moderno"
+                      }
+                      alt={carro.nome}
+                      className="w-full h-44 md:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute top-3 right-3 bg-blue-600 text-white px-2 py-1 rounded-md text-sm font-medium shadow-md">
+                      {carro.ano}
                     </span>
                   </div>
                 </div>
-              </div>
 
-              <div className="p-4 md:p-6 pt-0">
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors">
-                  Ver Detalhes
-                </button>
+                <div className="p-4 md:p-6">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                      {carro.nome}
+                    </h3>
+                    <span className="text-xl md:text-2xl font-bold text-blue-600">
+                      {carro.preco}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-sm text-gray-600">
+                    <div className="flex justify-between items-center">
+                      <span>Quilometragem:</span>
+                      <span className="font-medium text-gray-900">
+                        {carro.quilometragem}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Combustível:</span>
+                      <span className="font-medium text-gray-900">
+                        {carro.combustivel}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Transmissão:</span>
+                      <span className="font-medium text-gray-900">
+                        {carro.transmissao}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 md:p-6 pt-0">
+                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors">
+                    Ver Detalhes
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-xl text-red-600">{erro}</p>
+          )}
         </div>
 
         <div className="text-center mt-8 md:mt-12">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 rounded-lg font-medium text-lg transition-colors">
-            Ver Todos os Carros
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 rounded-lg font-medium text-lg transition-colors"
+            onClick={fetchCarros}
+          >
+            Buscar Carros
           </button>
         </div>
       </div>
