@@ -1,4 +1,4 @@
-const listaCarros = [
+const carros = [
   {
     id: 1,
     nome: "Honda Civic",
@@ -61,4 +61,4 @@ const listaCarros = [
   },
 ];
 
-module.exports = listaCarros;
+module.exports = carros;

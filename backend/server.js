@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const listaCarros = require("./dados/carros");
+const carros = require("./dados/carros");
+const lojas = require("./dados/lojas");
 
 const app = express();
 
@@ -10,11 +11,11 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/carros", (req, res) => {
-  res.status(200).json(listaCarros);
+  res.status(200).json(carros);
 });
 
 app.get("/lojas", (req, res) => {
-  res.send("Bem-vindo à loja de carros!");
+  res.status(200).json(lojas);
 });
 
 app.get("/sobre", (req, res) => {
