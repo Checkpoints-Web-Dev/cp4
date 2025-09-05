@@ -1,4 +1,5 @@
 import Carros from "./components/Carros";
+import Contato from "./components/Contato";
 import Header from "./components/Header";
 import Lojas from "./components/Lojas";
 import Sobre from "./components/Sobre";
@@ -10,6 +11,7 @@ function App() {
       <Carros />
       <Lojas />
       <Sobre />
+      <Contato />
     </>
   );
 }
